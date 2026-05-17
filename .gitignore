@@ -1,0 +1,14 @@
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# LÖVE packaged builds
+*.love
+*.zip
+*.tar.gz
+
+# Runtime/local files
+save.lua
+*.log
