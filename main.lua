@@ -446,7 +446,8 @@ local function shadowBlocksLaser(shadow, laser)
   return horizontallyAligned and reachesBeam
 end
 
-local function updateMechanisms()
+local function updateMechanisms(dt)
+  dt = dt or 0
   local level = game.level
   local player = game.player
   local shadow = game.shadow
@@ -456,7 +457,14 @@ local function updateMechanisms()
     for _, box in ipairs(level.boxes or {}) do
       if rectsOverlap(box, b) then boxActive = true; break end
     end
-    b.active = rectsOverlap(player, b) or (shadow and rectsOverlap(shadow, b)) or boxActive or false
+    local pressed = rectsOverlap(player, b) or (shadow and rectsOverlap(shadow, b)) or boxActive or false
+    local hold = b.hold or 0
+    if pressed then
+      b.timer = math.min(hold, (b.timer or 0) + dt)
+    else
+      b.timer = 0
+    end
+    b.active = pressed and (b.timer or 0) >= hold
   end
   for _, d in ipairs(level.doors) do
     d.open = false
@@ -491,12 +499,12 @@ local function updatePlay(dt)
   game.time = game.time + dt
   game.recorder.time = game.recorder.time + dt
   updateShadow()
-  updateMechanisms()
+  updateMechanisms(0)
 
   movePlayer(player, dt, game.level)
   recordFrame(game.recorder, player)
   updateShadow()
-  updateMechanisms()
+  updateMechanisms(dt)
 
   for _, l in ipairs(game.level.lasers) do
     if not l.blocked and rectsOverlap(player, l) then killPlayer() end
@@ -641,6 +649,10 @@ local function drawButton(b)
   love.graphics.rectangle("fill", b.x - 8, b.y - 12, b.w + 16, b.h + 20)
   pixelRect(b.x, b.y - 4, b.w, b.h + 4, b.active and COLORS.buttonOn or COLORS.buttonOff)
   pixelRect(b.x + 7, b.y - 8, b.w - 14, 4, b.active and {1.0, 1.0, 0.70} or {0.86, 0.32, 0.18})
+  if (b.hold or 0) > 0 and not b.active then
+    local progress = clamp((b.timer or 0) / b.hold, 0, 1)
+    pixelRect(b.x + 7, b.y - 8, (b.w - 14) * progress, 4, {1.0, 0.92, 0.22})
+  end
   love.graphics.setColor(0.30, 0.12, 0.05, 0.45)
   love.graphics.rectangle("line", b.x, b.y - 8, b.w, b.h + 8)
 end
