@@ -39,6 +39,7 @@ jobs:
       - name: Build web version with love.js
         run: |
           npx --yes love.js@11.4.1 build/game-src dist -c -t "Shadow Duet" -m 134217728
+          ./scripts/patch-web-export.py dist
           touch dist/.nojekyll
 
       - name: Upload Pages artifact
