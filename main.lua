@@ -440,7 +440,8 @@ end
 
 local function shadowBlocksLaser(shadow, laser)
   if not shadow then return false end
-  local horizontallyAligned = shadow.x < laser.x + laser.w and laser.x < shadow.x + shadow.w
+  local disruptMargin = laser.disruptMargin or 44
+  local horizontallyAligned = shadow.x < laser.x + laser.w + disruptMargin and laser.x - disruptMargin < shadow.x + shadow.w
   local reachesBeam = shadow.y + shadow.h >= laser.y - 4 and shadow.y <= laser.y + laser.h
   return horizontallyAligned and reachesBeam
 end
