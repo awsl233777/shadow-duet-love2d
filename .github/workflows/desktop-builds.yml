@@ -22,8 +22,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install Lua
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.4
+
       - name: Validate Lua syntax
-        run: luac -p main.lua levels.lua
+        run: luac5.4 -p main.lua levels.lua
 
       - name: Package desktop builds
         run: ./scripts/package-desktop.sh
