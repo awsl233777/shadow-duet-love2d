@@ -47,6 +47,7 @@ local I18N = {
   en = {
     title = "SHADOW DUET",
     subtitle = "an original pixel time-echo puzzle",
+    menuHelp = "Choose Start, press Enter / Space, or click the button",
     start = "Start",
     levelSelect = "Level Select",
     settings = "Settings",
@@ -82,6 +83,7 @@ local I18N = {
   zh = {
     title = "影子二重奏",
     subtitle = "原创像素时间回声解谜平台游戏",
+    menuHelp = "按 Enter / 空格开始   点选开始游戏",
     start = "开始游戏",
     levelSelect = "关卡选择",
     settings = "设置",
@@ -817,6 +819,18 @@ local function drawLevel()
   end
 end
 
+local function menuOptionBounds(index)
+  local y = 232 + index * 58
+  return 330, y - 12, 300, 42
+end
+
+local function activateMenuOption(index)
+  if index == 1 then resetLevel(math.min(save.unlocked, #levels)) end
+  if index == 2 then state = "select" end
+  if index == 3 then settingsReturnState = "menu"; state = "settings" end
+  if index == 4 then love.event.quit() end
+end
+
 local function drawMenu()
   drawBackground()
   love.graphics.setColor(0.05, 0.16, 0.26, 0.40)
@@ -839,13 +853,20 @@ local function drawMenu()
   love.graphics.setFont(font)
   textShadow(tr("subtitle"), 0, 156, W, "center", font, COLORS.muted)
 
+  love.graphics.setColor(0.10, 0.22, 0.36, 0.72)
+  love.graphics.rectangle("fill", 216, 184, 528, 30, 8, 8)
+  love.graphics.setColor(0.34, 0.90, 1.0, 0.48)
+  love.graphics.rectangle("line", 216.5, 184.5, 527, 29, 8, 8)
+  love.graphics.setColor(0.82, 0.94, 1.0, 0.88)
+  love.graphics.printf(tr("menuHelp"), 226, 190, 508, "center")
+
   local options = {tr("start"), tr("levelSelect"), tr("settings"), tr("quit")}
   for i, text in ipairs(options) do
-    local y = 232 + i * 58
+    local x, y, w, h = menuOptionBounds(i)
     local selected = i == menuIndex
-    panel(330, y - 12, 300, 42, selected)
+    panel(x, y, w, h, selected)
     love.graphics.setColor(selected and COLORS.player or COLORS.muted)
-    love.graphics.printf((selected and "◆  " or "◇  ") .. text, 330, y, 300, "center")
+    love.graphics.printf((selected and "◆  " or "◇  ") .. text, x, y + 12, w, "center")
   end
 
   love.graphics.setColor(0.76, 0.86, 1.0, 0.58)
@@ -1033,10 +1054,7 @@ function love.keypressed(key)
     if key == "down" or key == "s" then menuIndex = menuIndex + 1 end
     menuIndex = ((menuIndex - 1) % 4) + 1
     if key == "return" or key == "space" then
-      if menuIndex == 1 then resetLevel(math.min(save.unlocked, #levels)) end
-      if menuIndex == 2 then state = "select" end
-      if menuIndex == 3 then settingsReturnState = "menu"; state = "settings" end
-      if menuIndex == 4 then love.event.quit() end
+      activateMenuOption(menuIndex)
     end
   elseif state == "select" then
     if key == "escape" then state = "menu" end
@@ -1081,4 +1099,21 @@ function love.keypressed(key)
       if nextIndex == game.levelIndex then state = "select" else resetLevel(nextIndex) end
     end
   end
+end
+
+function love.mousepressed(x, y, button)
+  if button ~= 1 or state ~= "menu" then return end
+  x, y = x / SCALE, y / SCALE
+  for i = 1, 4 do
+    local bx, by, bw, bh = menuOptionBounds(i)
+    if x >= bx and x <= bx + bw and y >= by and y <= by + bh then
+      menuIndex = i
+      activateMenuOption(i)
+      return
+    end
+  end
+end
+
+function love.touchpressed(_, x, y)
+  love.mousepressed(x, y, 1)
 end
