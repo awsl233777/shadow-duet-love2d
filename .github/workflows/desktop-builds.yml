@@ -1,0 +1,49 @@
+name: Build desktop binaries
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Package Windows, macOS, Linux
+    runs-on: ubuntu-latest
+    env:
+      LOVE_VERSION: '11.5'
+      GAME_NAME: ShadowDuet
+      GAME_TITLE: Shadow Duet
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Lua syntax
+        run: luac -p main.lua levels.lua
+
+      - name: Package desktop builds
+        run: ./scripts/package-desktop.sh
+
+      - name: Upload desktop artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: shadow-duet-desktop-builds
+          path: |
+            dist/ShadowDuet.love
+            dist/ShadowDuet-windows-x64.zip
+            dist/ShadowDuet-macos.zip
+            dist/ShadowDuet-linux-x86_64.tar.gz
+
+      - name: Publish GitHub Release assets
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/ShadowDuet.love
+            dist/ShadowDuet-windows-x64.zip
+            dist/ShadowDuet-macos.zip
+            dist/ShadowDuet-linux-x86_64.tar.gz

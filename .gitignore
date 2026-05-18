@@ -8,6 +8,8 @@ Thumbs.db
 *.love
 *.zip
 *.tar.gz
+build/
+dist/
 
 # Runtime/local files
 save.lua
