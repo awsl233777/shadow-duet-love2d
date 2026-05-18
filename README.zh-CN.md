@@ -106,7 +106,7 @@ shadow-duet-love2d/
 - `conf.lua`：Love2D 窗口与应用配置
 - `main.lua`：游戏循环、物理、录像回放、菜单、渲染
 - `levels.lua`：关卡数据
-- `assets/fonts/`：中文字体
+- `assets/fonts/`：裁剪后的中文字体
 - `docs/screenshots/`：README 截图
 
 ---

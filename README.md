@@ -106,7 +106,7 @@ shadow-duet-love2d/
 - `conf.lua` - Love2D window and app config
 - `main.lua` - Game loop, physics, recorder, menus, rendering
 - `levels.lua` - Level data
-- `assets/fonts/` - Chinese-capable font
+- `assets/fonts/` - subset Chinese-capable font
 - `docs/screenshots/` - README screenshots
 
 ---
