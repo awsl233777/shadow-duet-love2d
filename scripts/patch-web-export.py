@@ -11,6 +11,10 @@ CSS_PATH = DIST_DIR / "theme" / "love.css"
 
 index = INDEX_PATH.read_text(encoding="utf-8")
 index = index.replace(
+    '<link rel="stylesheet" type="text/css" href="theme/love.css">',
+    '<link rel="stylesheet" type="text/css" href="theme/love.css?v=viewport-fill-v2">',
+)
+index = index.replace(
     '<canvas id="loadingCanvas" oncontextmenu="event.preventDefault()" width="800" height="600"></canvas>',
     '<canvas id="loadingCanvas" oncontextmenu="event.preventDefault()" width="960" height="540"></canvas>',
 )
