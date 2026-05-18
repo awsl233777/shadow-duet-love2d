@@ -157,7 +157,9 @@ end
 local function cloneLevel(src)
   local out = {
     name = src.name,
+    nameZh = src.nameZh,
     hint = src.hint,
+    hintZh = src.hintZh,
     start = copyRect(src.start),
     goal = copyRect(src.goal),
     solids = {},

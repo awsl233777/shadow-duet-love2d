@@ -25,7 +25,7 @@
 ### 设置与暂停
 | 设置 | 暂停 |
 |---|---|
-| ![英文设置页](docs/screenshots/settings-en.png) | ![中文暂停菜单](docs/screenshots/pause-zh.png) |
+| ![中文设置页](docs/screenshots/settings-zh.png) | ![中文暂停菜单](docs/screenshots/pause-zh.png) |
 
 ---
 
