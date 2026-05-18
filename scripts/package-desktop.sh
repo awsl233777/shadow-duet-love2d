@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-LOVE_VERSION="${LOVE_VERSION:-11.5}"
+LOVE_VERSION="${LOVE_VERSION:-11.4}"
 GAME_NAME="${GAME_NAME:-ShadowDuet}"
 GAME_TITLE="${GAME_TITLE:-Shadow Duet}"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
