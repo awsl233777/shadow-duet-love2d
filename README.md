@@ -2,6 +2,8 @@
 
 [English](README.md) | [中文](README.zh-CN.md)
 
+Play in browser: https://awsl233777.github.io/shadow-duet-love2d/
+
 **Shadow Duet** is a playable 2D time-echo puzzle platformer prototype made with **LÖVE / Love2D**.
 
 You cooperate with your **self from 4 seconds ago**. Your shadow can press pads, open doors, block lasers, push crates, and help the present player reach the exit.

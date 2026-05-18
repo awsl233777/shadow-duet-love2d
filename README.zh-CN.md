@@ -2,6 +2,8 @@
 
 [English](README.md) | [中文](README.zh-CN.md)
 
+在线游玩：https://awsl233777.github.io/shadow-duet-love2d/
+
 **影子二重奏** 是一个使用 **LÖVE / Love2D** 制作的 2D 横版时间协作解谜平台游戏原型。
 
 玩家需要和 **4 秒前的自己** 协作：让影子踩按钮、开门、挡激光、推箱子，帮助现在的自己抵达终点。
